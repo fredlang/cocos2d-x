@@ -224,6 +224,7 @@ void PUParticleSystem3D::startParticle()
             _timeElapsedSinceStart = 0.0f;
         }
     }
+    _state = State::RUNNING;
 
     for (auto iter : _children)
     {
@@ -254,11 +255,11 @@ void PUParticleSystem3D::stopParticle()
                 affector->notifyStop();
             }
 
-            if (_render)
-                _render->notifyStop();
-
-            unscheduleUpdate();
-            _particlePool.lockAllParticles();
+//            if (_render)
+//                _render->notifyStop();
+//
+//            unscheduleUpdate();
+//            _particlePool.lockAllParticles();
             _state = State::STOP;
         }
     }
@@ -333,10 +334,27 @@ void PUParticleSystem3D::resumeParticle()
     }
 }
 
+int PUParticleSystem3D::getAliveParticleCnt() const
+{
+    return (int)_particlePool.getActiveParticleList().size();
+}
+
 void PUParticleSystem3D::update(float delta)
 {
     if (_state != State::RUNNING)
-        return;
+    {
+        if (_state == State::PAUSE)
+            return;
+        else if (_state == State::STOP && getAliveParticleCnt() == 0)
+        {
+            //
+            if (_render)
+                _render->notifyStop();
+            
+            unscheduleUpdate();
+            return;
+        }
+    }
     
     prepared();
     emitParticles(delta);

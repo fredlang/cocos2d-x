@@ -132,7 +132,6 @@ const ParticlePool::PoolList& ParticlePool::getActiveParticleList() const
 ParticleSystem3D::ParticleSystem3D()
 : _emitter(nullptr)
 , _render(nullptr)
-, _aliveParticlesCnt(0)
 , _particleQuota(0)
 , _state(State::STOP)
 , _blend(BlendFunc::ALPHA_NON_PREMULTIPLIED)
@@ -263,7 +262,7 @@ void ParticleSystem3D::update(float delta)
 
 void ParticleSystem3D::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
-    if (_state != State::STOP && _render)
+    if (getAliveParticleCnt() && _render)
     {
         _render->render(renderer, transform, this);
     }

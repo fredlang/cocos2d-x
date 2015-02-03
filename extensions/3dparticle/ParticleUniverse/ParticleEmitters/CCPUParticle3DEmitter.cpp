@@ -348,7 +348,7 @@ void PUParticle3DEmitter::notifyRescaled( const Vec3& scale )
 
 void PUParticle3DEmitter::notifyStop()
 {
-
+    setEnabled(false);
 }
 
 void PUParticle3DEmitter::notifyPause()

@@ -160,9 +160,9 @@ public:
         return  _particlePool;
     }
     
-    int getAliveParticleCnt() const
+    virtual int getAliveParticleCnt() const
     {
-        return _aliveParticlesCnt;
+        return 0;
     }
     
     State getState() const { return _state; }
@@ -189,7 +189,7 @@ protected:
     
     //particles
     ParticlePool                _particlePool;
-    int                              _aliveParticlesCnt;
+
     unsigned int            _particleQuota;
     
     BlendFunc                        _blend;

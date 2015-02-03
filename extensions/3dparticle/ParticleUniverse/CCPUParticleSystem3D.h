@@ -258,6 +258,8 @@ public:
      * add particle affector
      */
     void addEmitter(PUParticle3DEmitter* emitter);
+    
+    virtual int getAliveParticleCnt() const override;
 
 CC_CONSTRUCTOR_ACCESS:
     PUParticleSystem3D();
